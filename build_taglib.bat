@@ -3,8 +3,10 @@ set TAGLIB_PATH=taglib-1.9.1
 
 if %MACHINE_X86% (
   set PLATFORM=Win32
+  set CMAKE_CONF="Visual Studio 12 2013"
 ) else (
   set PLATFORM=x64
+  set CMAKE_CONF="Visual Studio 12 2013 Win64"
 )
 
 if %CONFIG_RELEASE% (
@@ -14,14 +16,15 @@ if %CONFIG_RELEASE% (
 )
 
 REM NOTE(rryan): generated solution with
-REM cmake . -G "Visual Studio 12 2013" -DZLIB_INCLUDE_DIR=..\..\include -DZLIB_LIBRARY=..\..\lib\zlibwapi.lib
+REM cmake . -G "Visual Studio 12 2013" -DZLIB_INCLUDE_DIR=..\..\include -DZLIB_LIBRARY=..\..\lib\zlibwapi.lib -DBUILD_SHARED_LIBS=OFF
  
 cd build\%TAGLIB_PATH%
-%MSBUILD% taglib.sln /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /t:tag:Clean;tag:Rebuild
+cmake -G %CMAKE_CONF% -DZLIB_INCLUDE_DIR=%INCLUDE_DIR% -DZLIB_LIBRARY=%LIB_DIR%\zlibwapi.lib -DBUILD_TESTS=off .
+%MSBUILD% taglib.sln /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /t:tag:Rebuild
 
-copy %PLATFORM%\%CONFIG%\tag.lib %LIB_DIR%
-copy %PLATFORM%\%CONFIG%\tag.dll %LIB_DIR%
-copy %PLATFORM%\%CONFIG%\tag.pdb %LIB_DIR%
+copy taglib\%CONFIG%\tag.lib %LIB_DIR%
+copy taglib\%CONFIG%\tag.dll %LIB_DIR%
+copy taglib\%CONFIG%\tag.pdb %LIB_DIR%
 md %INCLUDE_DIR%\taglib
 %XCOPY% taglib_config.h %INCLUDE_DIR%\taglib
 %XCOPY% taglib\*.h %INCLUDE_DIR%\taglib
