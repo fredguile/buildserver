@@ -16,10 +16,10 @@ if %CONFIG_RELEASE% (
 )
 
 REM NOTE(rryan): generated solution with
-REM cmake . -G "Visual Studio 12 2013" -DZLIB_INCLUDE_DIR=..\..\include -DZLIB_LIBRARY=..\..\lib\zlibwapi.lib -DBUILD_SHARED_LIBS=OFF
+REM cmake . -G "Visual Studio 12 2013" -DZLIB_INCLUDE_DIR=..\..\include -DZLIB_LIBRARY=..\..\lib\zlibwapi.lib
  
 cd build\%TAGLIB_PATH%
-cmake -G %CMAKE_CONF% -DZLIB_INCLUDE_DIR=%INCLUDE_DIR% -DZLIB_LIBRARY=%LIB_DIR%\zlibwapi.lib -DBUILD_TESTS=off .
+cmake -G %CMAKE_CONF% -DZLIB_INCLUDE_DIR=%INCLUDE_DIR% -DZLIB_LIBRARY=%LIB_DIR%\zlibwapi.lib -DBUILD_TESTS=OFF -DENABLE_STATIC=OFF .
 %MSBUILD% taglib.sln /p:Configuration=%CONFIG% /p:Platform=%PLATFORM% /t:tag:Rebuild
 
 copy taglib\%CONFIG%\tag.lib %LIB_DIR%
