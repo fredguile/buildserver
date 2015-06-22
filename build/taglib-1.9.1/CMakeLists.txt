@@ -21,6 +21,10 @@ option(BUILD_EXAMPLES "Build the examples"  OFF)
 
 option(NO_ITUNES_HACKS "Disable workarounds for iTunes bugs"  OFF)
 
+## adding this to fix linkage issue with zlib (http://sourceforge.net/p/mixxx/mailman/message/32981948/)
+add_definitions(-DZLIB_WINAPI)
+add_definitions(-DZLIB_DLL)
+
 add_definitions(-DHAVE_CONFIG_H)
 set(TESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
 
